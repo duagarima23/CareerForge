@@ -22,9 +22,7 @@ st.set_page_config(page_title="CareerForge – AI Career Assistant", layout="wid
 # --- Global Styles ---
 st.markdown("""
 <style>
-body {
-    font-family: 'Poppins', sans-serif;
-}
+body { font-family: 'Poppins', sans-serif; }
 [data-testid="stAppViewContainer"] {
     background: linear-gradient(to bottom, #e6f2ff, #ffffff);
 }
@@ -39,9 +37,7 @@ div.stButton > button {
     border-radius: 8px;
     padding: 0.6em 1em;
 }
-div.stButton > button:hover {
-    background-color: #cce6ff;
-}
+div.stButton > button:hover { background-color: #cce6ff; }
 input, textarea {
     background-color: white !important;
     color: black !important;
@@ -64,7 +60,7 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-# --- Features Section ---
+# --- Features ---
 st.markdown("""
 <h3 style='text-align: center;'>Features</h3>
 <div style='display: flex; justify-content: center; flex-wrap: wrap; gap: 1.5rem;'>
@@ -91,7 +87,7 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-# --- Upload Section ---
+# --- Upload ---
 st.markdown("<h3 style='margin-top:3rem; text-align: center;'>🚀 Get Started</h3>", unsafe_allow_html=True)
 
 if not st.session_state.resume_uploaded:
@@ -121,7 +117,7 @@ if st.button("Submit"):
     else:
         st.warning("⚠️ Please enter a valid job description.")
 
-# --- Blue Output Box ---
+# --- Box Function ---
 def blue_box(content):
     st.markdown(f"""
     <div style="background-color: #e6f2ff; color: #003366; padding: 1rem 1.2rem; border-radius: 10px; margin-bottom: 1rem;">
@@ -129,39 +125,24 @@ def blue_box(content):
     </div>
     """, unsafe_allow_html=True)
 
-# --- Tool Section ---
+# --- Tool Buttons & Logic ---
 if st.session_state.resume_uploaded and st.session_state.jd_submitted:
     tool_col1, tool_col2, tool_col3, tool_col4, tool_col5 = st.columns(5)
     with tool_col1:
-        st.markdown('<span title="Check how well your skills match the job description.">', unsafe_allow_html=True)
         if st.button("🧠 Skill Match"):
             st.session_state.active_tool = "skill_match"
-        st.markdown('</span>', unsafe_allow_html=True)
-    
     with tool_col2:
-        st.markdown('<span title="Visual job fit score using a radar chart.">', unsafe_allow_html=True)
         if st.button("📊 Job Fit Score"):
             st.session_state.active_tool = "job_fit"
-        st.markdown('</span>', unsafe_allow_html=True)
-    
     with tool_col3:
-        st.markdown('<span title="Detailed feedback on your resume formatting, clarity, and content.">', unsafe_allow_html=True)
         if st.button("📋 Resume Critique"):
             st.session_state.active_tool = "resume_critique"
-        st.markdown('</span>', unsafe_allow_html=True)
-    
     with tool_col4:
-        st.markdown('<span title="Generate a professional cover letter for this job.">', unsafe_allow_html=True)
         if st.button("✉️ Cover Letter"):
             st.session_state.active_tool = "cover_letter"
-        st.markdown('</span>', unsafe_allow_html=True)
-    
     with tool_col5:
-        st.markdown('<span title="Practice answering interview questions with AI feedback.">', unsafe_allow_html=True)
         if st.button("🎤 Interview Q&A"):
             st.session_state.active_tool = "interview_qa"
-        st.markdown('</span>', unsafe_allow_html=True)
-    
 
     tool = st.session_state.active_tool
 
@@ -174,12 +155,16 @@ if st.session_state.resume_uploaded and st.session_state.jd_submitted:
             if missing:
                 content += f"<p><strong>❌ Missing Skills:</strong> {', '.join(missing)}</p>"
             blue_box(content)
+            st.session_state.matched = matched
+            st.session_state.missing = missing
+            st.session_state.skill_score = score
 
     elif tool == "job_fit":
         with st.spinner("Calculating job fit..."):
             resume_data = parse_resume("data/temp_resume.pdf")
             result = analyze_job_fit(resume_data["RawText"], st.session_state.job_description)
             df = pd.DataFrame({"Category": list(result.keys()), "Score": [v["score"] for v in result.values()]})
+            st.session_state.job_fit_result = result
 
             def radar_plot():
                 N = len(df)
@@ -210,20 +195,22 @@ if st.session_state.resume_uploaded and st.session_state.jd_submitted:
         with st.spinner("Reviewing resume..."):
             resume_data = parse_resume("data/temp_resume.pdf")
             feedback = critique_resume(resume_data)
+            st.session_state.feedback = feedback
             blue_box(f"<h4>📋 Resume Critique</h4><p>{feedback}</p>")
 
     elif tool == "cover_letter":
         with st.spinner("Writing cover letter..."):
             resume_data = parse_resume("data/temp_resume.pdf")
-            resume_summary = f"{resume_data['Name']} has skills in {', '.join(resume_data['Skills'])}. Contact: {resume_data['Email']} | {resume_data['Phone']}"
-            letter = generate_cover_letter(resume_summary, st.session_state.job_description)
+            summary = f"{resume_data['Name']} has skills in {', '.join(resume_data['Skills'])}. Contact: {resume_data['Email']} | {resume_data['Phone']}"
+            letter = generate_cover_letter(summary, st.session_state.job_description)
+            st.session_state.letter = letter
             blue_box(f"<h4>✉️ Generated Cover Letter</h4><pre>{letter}</pre>")
 
     elif tool == "interview_qa":
         with st.spinner("Generating questions..."):
             resume_data = parse_resume("data/temp_resume.pdf")
-            resume_summary = f"{resume_data['Name']} has skills in {', '.join(resume_data['Skills'])}. Contact: {resume_data['Email']} | {resume_data['Phone']}"
-            questions = generate_interview_questions(resume_summary, st.session_state.job_description)
+            summary = f"{resume_data['Name']} has skills in {', '.join(resume_data['Skills'])}. Contact: {resume_data['Email']} | {resume_data['Phone']}"
+            questions = generate_interview_questions(summary, st.session_state.job_description)
             for i, q in enumerate(questions):
                 st.markdown(f"**Q{i+1}: {q}**")
                 a = st.text_area("Your Answer", key=f"ans_{i}")
@@ -233,6 +220,7 @@ if st.session_state.resume_uploaded and st.session_state.jd_submitted:
                         blue_box(f"<strong>Feedback:</strong> {fb}")
                     else:
                         st.warning("Please provide your answer first.")
+
 # --- Email Section ---
 if st.session_state.jd_submitted:
     st.markdown("---")
@@ -267,20 +255,24 @@ if st.session_state.jd_submitted:
                     y -= 20
                 c.save()
 
+            # Gather results safely
             job_fit_summary = ""
-            for cat, info in st.session_state.job_fit_result.items():
-                job_fit_summary += f"{cat}: {info['score']}%\nFeedback: {info['comment']}\n"
+            if "job_fit_result" in st.session_state:
+                for cat, info in st.session_state.job_fit_result.items():
+                    job_fit_summary += f"{cat}: {info['score']}%\nFeedback: {info['comment']}\n"
 
             results = [
-                ("Skill Match", f"Score: {score}%\nMatched: {', '.join(matched)}" + (f"\nMissing: {', '.join(missing)}" if missing else "")),
-                ("Job Fit Score", job_fit_summary),
-                ("Resume Critique", st.session_state.feedback),
-                ("Cover Letter", st.session_state.letter),
+                ("Skill Match", f"Score: {st.session_state.get('skill_score', 0)}%\nMatched: {', '.join(st.session_state.get('matched', []))}" +
+                                (f"\nMissing: {', '.join(st.session_state.get('missing', []))}" if st.session_state.get('missing') else "")),
+                ("Job Fit Score", job_fit_summary or "Not available"),
+                ("Resume Critique", st.session_state.get("feedback", "Not available")),
+                ("Cover Letter", st.session_state.get("letter", "Not available")),
             ]
 
             save_pdf(results)
             send_email(to_email, "CareerForge Results", "Attached are your results.", ["copilot_summary.pdf"])
             st.success("✅ Email Sent!")
+
 # --- Footer ---
 st.markdown("""
 <hr style="margin-top: 3rem;">

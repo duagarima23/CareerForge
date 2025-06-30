@@ -133,35 +133,20 @@ def blue_box(content):
 if st.session_state.resume_uploaded and st.session_state.jd_submitted:
     tool_col1, tool_col2, tool_col3, tool_col4, tool_col5 = st.columns(5)
     with tool_col1:
-        st.markdown('<span title="Check how well your skills match the job description.">', unsafe_allow_html=True)
         if st.button("🧠 Skill Match"):
             st.session_state.active_tool = "skill_match"
-        st.markdown('</span>', unsafe_allow_html=True)
-    
     with tool_col2:
-        st.markdown('<span title="Visual job fit score using a radar chart.">', unsafe_allow_html=True)
         if st.button("📊 Job Fit Score"):
             st.session_state.active_tool = "job_fit"
-        st.markdown('</span>', unsafe_allow_html=True)
-    
     with tool_col3:
-        st.markdown('<span title="Detailed feedback on your resume formatting, clarity, and content.">', unsafe_allow_html=True)
         if st.button("📋 Resume Critique"):
             st.session_state.active_tool = "resume_critique"
-        st.markdown('</span>', unsafe_allow_html=True)
-    
     with tool_col4:
-        st.markdown('<span title="Generate a professional cover letter for this job.">', unsafe_allow_html=True)
         if st.button("✉️ Cover Letter"):
             st.session_state.active_tool = "cover_letter"
-        st.markdown('</span>', unsafe_allow_html=True)
-    
     with tool_col5:
-        st.markdown('<span title="Practice answering interview questions with AI feedback.">', unsafe_allow_html=True)
         if st.button("🎤 Interview Q&A"):
             st.session_state.active_tool = "interview_qa"
-        st.markdown('</span>', unsafe_allow_html=True)
-
 
     tool = st.session_state.active_tool
 
@@ -170,13 +155,10 @@ if st.session_state.resume_uploaded and st.session_state.jd_submitted:
             resume_data = parse_resume("data/temp_resume.pdf")
             jd_skills = extract_skills_from_jd(st.session_state.job_description)
             matched, missing, score = compare_skills(resume_data['Skills'], jd_skills)
-            content = f"""
-            <h4>🎯 Skill Match Score: {score}%</h4>
-            <p><strong>✅ Matched Skills:</strong> {', '.join(matched) if matched else 'None'}</p>
-            <p><strong>❌ Missing Skills:</strong> {', '.join(missing) if missing else 'None'}</p>
-            """
+            content = f"<h4>🎯 Skill Match Score: {score}%</h4><p><strong>✅ Matched Skills:</strong> {', '.join(matched)}</p>"
+            if missing:
+                content += f"<p><strong>❌ Missing Skills:</strong> {', '.join(missing)}</p>"
             blue_box(content)
-
 
     elif tool == "job_fit":
         with st.spinner("Calculating job fit..."):

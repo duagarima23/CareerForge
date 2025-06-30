@@ -170,10 +170,13 @@ if st.session_state.resume_uploaded and st.session_state.jd_submitted:
             resume_data = parse_resume("data/temp_resume.pdf")
             jd_skills = extract_skills_from_jd(st.session_state.job_description)
             matched, missing, score = compare_skills(resume_data['Skills'], jd_skills)
-            content = f"<h4>🎯 Skill Match Score: {score}%</h4><p><strong>✅ Matched Skills:</strong> {', '.join(matched)}</p>"
-            if missing:
-                content += f"<p><strong>❌ Missing Skills:</strong> {', '.join(missing)}</p>"
+            content = f"""
+            <h4>🎯 Skill Match Score: {score}%</h4>
+            <p><strong>✅ Matched Skills:</strong> {', '.join(matched) if matched else 'None'}</p>
+            <p><strong>❌ Missing Skills:</strong> {', '.join(missing) if missing else 'None'}</p>
+            """
             blue_box(content)
+
 
     elif tool == "job_fit":
         with st.spinner("Calculating job fit..."):

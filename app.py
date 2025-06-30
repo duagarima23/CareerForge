@@ -233,7 +233,54 @@ if st.session_state.resume_uploaded and st.session_state.jd_submitted:
                         blue_box(f"<strong>Feedback:</strong> {fb}")
                     else:
                         st.warning("Please provide your answer first.")
+# --- Email Section ---
+if st.session_state.jd_submitted:
+    st.markdown("---")
+    st.subheader("📧 Email Results")
+    to_email = st.text_input("Enter your email address")
 
+    if st.button("📨 Send Email"):
+        if not to_email.strip():
+            st.warning("Please enter a valid email address.")
+        else:
+            def save_pdf(sections):
+                c = canvas.Canvas("copilot_summary.pdf", pagesize=LETTER_SIZE)
+                width, height = LETTER_SIZE
+                y = height - 40
+                margin = 50
+                max_width = width - 2 * margin
+                c.setFont("Helvetica-Bold", 16)
+                c.drawString(margin, y, "CareerForge AI Results")
+                y -= 30
+                for title, body in sections:
+                    c.setFont("Helvetica-Bold", 13)
+                    c.drawString(margin, y, title)
+                    y -= 20
+                    c.setFont("Helvetica", 11)
+                    wrapped = simpleSplit(body, "Helvetica", 11, max_width)
+                    for line in wrapped:
+                        if y < 50:
+                            c.showPage()
+                            y = height - 40
+                        c.drawString(margin, y, line)
+                        y -= 15
+                    y -= 20
+                c.save()
+
+            job_fit_summary = ""
+            for cat, info in st.session_state.job_fit_result.items():
+                job_fit_summary += f"{cat}: {info['score']}%\nFeedback: {info['comment']}\n"
+
+            results = [
+                ("Skill Match", f"Score: {score}%\nMatched: {', '.join(matched)}" + (f"\nMissing: {', '.join(missing)}" if missing else "")),
+                ("Job Fit Score", job_fit_summary),
+                ("Resume Critique", st.session_state.feedback),
+                ("Cover Letter", st.session_state.letter),
+            ]
+
+            save_pdf(results)
+            send_email(to_email, "CareerForge Results", "Attached are your results.", ["copilot_summary.pdf"])
+            st.success("✅ Email Sent!")
 # --- Footer ---
 st.markdown("""
 <hr style="margin-top: 3rem;">

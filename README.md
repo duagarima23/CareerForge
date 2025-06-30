@@ -109,25 +109,41 @@ careerforge/
 ## 📄 License
 
 This project is licensed under the MIT License.
-## Output
+## 📸 Screenshots
+### 🔹 Intro & Resume & JD Upload
+![Intro]![image](https://github.com/user-attachments/assets/4bdb5f89-c940-4b33-af99-dd214a1aef69)
+![Resume & JD upload]![image](https://github.com/user-attachments/assets/81b412b8-0df7-4f53-ac5d-77947d126f5d)
 
-![image](https://github.com/user-attachments/assets/4bdb5f89-c940-4b33-af99-dd214a1aef69)
+### 🔹 Skill Match & Job Fit
+![Skill Match]![image](https://github.com/user-attachments/assets/0a9583c9-0f47-4fac-9135-461c56dca04a)
+![Job Fit]![image](https://github.com/user-attachments/assets/b38d7efb-9ad3-4625-9fa2-11248b687029)
 
-![image](https://github.com/user-attachments/assets/81b412b8-0df7-4f53-ac5d-77947d126f5d)
+### 🔹 Resume Critique & Cover Letter
+![Critique]![image](https://github.com/user-attachments/assets/04e5f34d-e1a1-4c09-ba45-e71f2ebfd463)
+![Cover Letter]![next](https://github.com/user-attachments/assets/796803c1-dca9-4eb8-905f-298d6c1c53d8)
 
-![image](https://github.com/user-attachments/assets/d272a4db-b2bb-4a7f-a6e8-43e5296c1c8e)
+### 🔹 Interview Q&A & Email
+![Interview]![image](https://github.com/user-attachments/assets/d04c364d-56ec-485a-82b1-27779b5754c5)
+![Email]![image](https://github.com/user-attachments/assets/75bdb516-9e52-45e7-b047-7618bc623dfa)
 
-![image](https://github.com/user-attachments/assets/0a9583c9-0f47-4fac-9135-461c56dca04a)
 
-![image](https://github.com/user-attachments/assets/b38d7efb-9ad3-4625-9fa2-11248b687029)
 
-![image](https://github.com/user-attachments/assets/04e5f34d-e1a1-4c09-ba45-e71f2ebfd463)
 
-![next](https://github.com/user-attachments/assets/796803c1-dca9-4eb8-905f-298d6c1c53d8)
 
-![image](https://github.com/user-attachments/assets/d04c364d-56ec-485a-82b1-27779b5754c5)
 
-![image](https://github.com/user-attachments/assets/75bdb516-9e52-45e7-b047-7618bc623dfa)
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

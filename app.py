@@ -129,20 +129,21 @@ def blue_box(content):
 if st.session_state.resume_uploaded and st.session_state.jd_submitted:
     tool_col1, tool_col2, tool_col3, tool_col4, tool_col5 = st.columns(5)
     with tool_col1:
-        if st.button("🧠 Skill Match"):
+        if st.button("🧠 Skill Match", help="Check how well your skills match the job description."):
             st.session_state.active_tool = "skill_match"
     with tool_col2:
-        if st.button("📊 Job Fit Score"):
+        if st.button("📊 Job Fit Score", help="Visual job fit score using a radar chart."):
             st.session_state.active_tool = "job_fit"
     with tool_col3:
-        if st.button("📋 Resume Critique"):
+        if st.button("📋 Resume Critique", help="Detailed feedback on resume formatting, clarity, and content."):
             st.session_state.active_tool = "resume_critique"
     with tool_col4:
-        if st.button("✉️ Cover Letter"):
+        if st.button("✉️ Cover Letter", help="Generate a professional cover letter for this job."):
             st.session_state.active_tool = "cover_letter"
     with tool_col5:
-        if st.button("🎤 Interview Q&A"):
+        if st.button("🎤 Interview Q&A", help="Practice answering interview questions with AI feedback."):
             st.session_state.active_tool = "interview_qa"
+
 
     tool = st.session_state.active_tool
 

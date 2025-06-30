@@ -96,8 +96,10 @@ st.markdown("<h3 style='margin-top:3rem; text-align: center;'>🚀 Get Started</
 if not st.session_state.resume_uploaded:
     uploaded_file = st.file_uploader("Upload your Resume", type=["pdf"], label_visibility="collapsed")
     if uploaded_file:
+        os.makedirs("data", exist_ok=True)  # Ensure folder exists
         with open("data/temp_resume.pdf", "wb") as f:
             f.write(uploaded_file.read())
+
         st.session_state.resume_uploaded = True
         st.success("✅ Resume Uploaded")
 else:

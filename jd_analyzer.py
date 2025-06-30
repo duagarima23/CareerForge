@@ -9,10 +9,15 @@ def extract_skills_from_jd(jd_text):
     return jd_skills
 
 def compare_skills(resume_skills, jd_skills):
-    matched = set(resume_skills).intersection(set(jd_skills))
-    missing = set(jd_skills).difference(set(resume_skills))
-    score = round((len(matched) / len(jd_skills)) * 100) if jd_skills else 0
+    resume_skills_clean = {s.strip().lower() for s in resume_skills}
+    jd_skills_clean = {s.strip().lower() for s in jd_skills}
+
+    matched = list(resume_skills_clean & jd_skills_clean)
+    missing = list(jd_skills_clean - resume_skills_clean)
+    score = int(len(matched) / len(jd_skills_clean) * 100) if jd_skills_clean else 0
+
     return matched, missing, score
+
 
 if __name__ == "__main__":
     # Load resume data

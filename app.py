@@ -1,5 +1,6 @@
 import streamlit as st
 import os
+import time
 from resume_critic import critique_resume
 from resume_parser import parse_resume
 from job_fit import analyze_job_fit
@@ -120,7 +121,7 @@ if st.button("Submit"):
 if st.session_state.jd_submitted and not st.session_state.active_tool:
     with st.spinner("⏳ Preparing tools..."):
         st.markdown("<p style='color:#003366;'>Loading tools, please wait...</p>", unsafe_allow_html=True)
-        st.sleep(1.5)  # simulate small delay for better UX
+        time.sleep(1.5)  # simulate small delay for better UX
 
 
 

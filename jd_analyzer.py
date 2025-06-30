@@ -3,8 +3,49 @@ import re
 
 def extract_skills_from_jd(jd_text):
     jd_text = jd_text.lower()
-    common_skills = ['python', 'java', 'sql', 'excel', 'machine learning', 'deep learning', 'tensorflow',
-                     'keras', 'nlp', 'data analysis', 'pandas', 'numpy', 'power bi', 'streamlit']
+    common_skills = [
+    # ✅ Programming Languages
+    'python', 'java', 'c++', 'c', 'c#', 'javascript', 'typescript', 'go', 'ruby', 'r', 'scala',
+    'bash', 'shell scripting', 'kotlin', 'swift', 'php', 'sql', 'html', 'css',
+
+    # 📊 Data Science & Analytics
+    'excel', 'pandas', 'numpy', 'matplotlib', 'seaborn', 'scikit-learn', 'power bi', 'tableau',
+    'data analysis', 'data visualization', 'data cleaning', 'statistics', 'data mining',
+    'exploratory data analysis', 'business intelligence',
+
+    # 🧠 AI & Machine Learning
+    'machine learning', 'deep learning', 'tensorflow', 'keras', 'nlp', 'computer vision',
+    'neural networks', 'natural language processing', 'opencv', 'huggingface', 'llms',
+
+    # 💻 Web Development
+    'react', 'angular', 'vue', 'node.js', 'express', 'django', 'flask', 'bootstrap', 'jquery',
+    'web development', 'frontend', 'backend', 'api development', 'full stack development',
+
+    # 🛠 DevOps & Cloud
+    'docker', 'kubernetes', 'jenkins', 'git', 'github', 'bitbucket', 'ci/cd', 'aws', 'azure',
+    'gcp', 'linux', 'terraform', 'ansible',
+
+    # 🔐 Cybersecurity
+    'cybersecurity', 'network security', 'penetration testing', 'ethical hacking',
+    'security analysis', 'firewalls', 'risk assessment',
+
+    # 🗂 Project & Product Management
+    'project management', 'agile', 'scrum', 'kanban', 'jira', 'confluence', 'product management',
+    'roadmapping', 'requirement analysis',
+
+    # 🧑‍💼 Soft Skills
+    'communication', 'teamwork', 'leadership', 'problem solving', 'critical thinking',
+    'collaboration', 'adaptability', 'time management',
+
+    # 🧾 Business & Finance
+    'accounting', 'finance', 'financial modeling', 'investment analysis', 'risk management',
+    'business strategy', 'market research', 'economics',
+
+    # 🎨 Design & Creative
+    'photoshop', 'illustrator', 'figma', 'adobe xd', 'ui/ux', 'graphic design',
+    'video editing', 'animation', 'canva', 'creativity'
+]
+
     jd_skills = [skill for skill in common_skills if skill in jd_text]
     return jd_skills
 

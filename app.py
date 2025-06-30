@@ -112,11 +112,13 @@ else:
 job_description = st.text_area("Paste Job Description")
 if st.button("Submit"):
     if job_description.strip():
-        st.session_state.jd_submitted = True
-        st.session_state.job_description = job_description
+        with st.spinner("🔍 Processing your resume and job description..."):
+            st.session_state.jd_submitted = True
+            st.session_state.job_description = job_description
         st.success("📨 Job Description Submitted!")
     else:
         st.warning("⚠️ Please enter a valid job description.")
+
 
 # --- Output Box Function ---
 def blue_box(content):

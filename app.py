@@ -121,7 +121,7 @@ if st.button("Submit"):
 if st.session_state.jd_submitted and not st.session_state.active_tool:
     with st.spinner("⏳ Preparing tools..."):
         st.markdown("<p style='color:#003366;'>Loading tools, please wait...</p>", unsafe_allow_html=True)
-        time.sleep(1.5)  # simulate small delay for better UX
+        time.sleep(5)  # simulate small delay for better UX
 
 
 

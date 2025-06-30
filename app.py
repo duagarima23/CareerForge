@@ -112,12 +112,16 @@ else:
 job_description = st.text_area("Paste Job Description")
 if st.button("Submit"):
     if job_description.strip():
-        with st.spinner("🔍 Processing your resume and job description..."):
-            st.session_state.jd_submitted = True
-            st.session_state.job_description = job_description
+        st.session_state.jd_submitted = True
+        st.session_state.job_description = job_description
         st.success("📨 Job Description Submitted!")
     else:
         st.warning("⚠️ Please enter a valid job description.")
+if st.session_state.jd_submitted and not st.session_state.active_tool:
+    with st.spinner("⏳ Preparing tools..."):
+        st.markdown("<p style='color:#003366;'>Loading tools, please wait...</p>", unsafe_allow_html=True)
+        st.sleep(1.5)  # simulate small delay for better UX
+
 
 
 # --- Output Box Function ---

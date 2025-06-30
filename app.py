@@ -120,8 +120,8 @@ if st.button("Submit"):
         st.warning("⚠️ Please enter a valid job description.")
 if st.session_state.jd_submitted and not st.session_state.active_tool:
     with st.spinner("⏳ Preparing tools..."):
-        st.markdown("<p style='color:#003366;'>Loading tools, please wait...</p>", unsafe_allow_html=True)
-        time.sleep(5)  # simulate small delay for better UX
+        #st.markdown("<p style='color:#003366;'>Loading tools, please wait...</p>", unsafe_allow_html=True)
+        time.sleep(12)  # simulate small delay for better UX
 
 
 

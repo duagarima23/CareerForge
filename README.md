@@ -10,7 +10,8 @@ CareerForge is an intelligent resume assistant powered by AI that helps job seek
 🎯 **Perfect for:** students, professionals, or anyone applying for jobs!
 
 
-![Streamlit App]https://careerforge-iflsnsjoimmttuy5kinjbb.streamlit.app/
+[![Streamlit App](https://img.shields.io/badge/Streamlit-Live_App-green?logo=streamlit)]https://careerforge-iflsnsjoimmttuy5kinjbb.streamlit.app/
+
 
 
 ---

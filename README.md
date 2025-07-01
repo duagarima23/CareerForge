@@ -8,6 +8,8 @@ CareerForge is an intelligent resume assistant powered by AI that helps job seek
 - Email the full analysis in a downloadable PDF
 
 🎯 **Perfect for:** students, professionals, or anyone applying for jobs!
+
+
 [![Streamlit App]https://careerforge-iflsnsjoimmttuy5kinjbb.streamlit.app/
 
 

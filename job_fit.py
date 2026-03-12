@@ -54,7 +54,7 @@ Respond in the following JSON format:
 """
 
     response = client.chat.completions.create(
-        model="mistralai/mistral-7b-instruct",
+        model="mistralai/mistral-7b-instruct:free",
         messages=[{"role": "user", "content": prompt}],
         temperature=0.7,
         max_tokens=800
@@ -66,3 +66,4 @@ Respond in the following JSON format:
         return parsed
     except Exception as e:
         return {"error": "Failed to parse job fit score. Please try again.", "details": str(e)}
+

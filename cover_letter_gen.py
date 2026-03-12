@@ -25,7 +25,7 @@ def generate_cover_letter(resume_summary, job_description):
     """
 
     response = client.chat.completions.create(
-        model="mistralai/mistral-7b-instruct:free",  # Free, fast model
+        model="meta-llama/llama-3.1-8b-instruct:free",  # Free, fast model
         messages=[
             {"role": "user", "content": prompt}
         ],
@@ -48,4 +48,5 @@ if __name__ == "__main__":
     letter = generate_cover_letter(resume_summary, job_description)
     print("\n--- COVER LETTER ---\n")
     print(letter)
+
 

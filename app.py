@@ -164,40 +164,60 @@ if st.session_state.resume_uploaded and st.session_state.jd_submitted:
         with st.spinner("Calculating job fit..."):
             resume_data = parse_resume("data/temp_resume.pdf")
             result = analyze_job_fit(resume_data["RawText"], st.session_state.job_description)
+
+            # Validate result
             if isinstance(result, dict) and "error" not in result:
                 df = pd.DataFrame({
                     "Category": list(result.keys()),
-                    "Score": [v.get("score", 0) for v in result.values()]
+                    "Score": [
+                        v.get("score", 0) if isinstance(v, dict) else 0
+                        for v in result.values()
+                    ]
                 })
             else:
                 st.error("Job fit analysis failed. Please try again.")
+                st.write(result)  # helpful for debugging
                 st.stop()
+
             st.session_state.job_fit_result = result
 
+            # Radar chart
             def radar_plot():
                 N = len(df)
                 angles = np.linspace(0, 2 * np.pi, N, endpoint=False).tolist()
-                values = df['Score'].tolist()
+                values = df["Score"].tolist()
+    
                 values += values[:1]
                 angles += angles[:1]
+    
                 plt.style.use("dark_background")
                 fig, ax = plt.subplots(figsize=(3, 3), subplot_kw=dict(polar=True))
                 fig.patch.set_facecolor("#111")
                 ax.set_facecolor("#111")
-                ax.plot(angles, values, color='cyan', linewidth=2)
-                ax.fill(angles, values, color='cyan', alpha=0.3)
+    
+                ax.plot(angles, values, color="cyan", linewidth=2)
+                ax.fill(angles, values, color="cyan", alpha=0.3)
+    
                 ax.set_yticks([20, 40, 60, 80, 100])
-                ax.set_yticklabels(['20', '40', '60', '80', '100'], color='gray', fontsize=6)
+                ax.set_yticklabels(["20", "40", "60", "80", "100"], color="gray", fontsize=6)
+    
                 ax.set_xticks(angles[:-1])
-                ax.set_xticklabels(df['Category'].tolist(), color='white', fontsize=7)
-                ax.grid(color='gray', linestyle='dashed', linewidth=0.5)
+                ax.set_xticklabels(df["Category"].tolist(), color="white", fontsize=7)
+    
+                ax.grid(color="gray", linestyle="dashed", linewidth=0.5)
+    
                 _, col, _ = st.columns([4, 2, 4])
                 with col:
                     st.pyplot(fig)
+    
             radar_plot()
 
+            # Display comments
             for cat, info in result.items():
-                blue_box(f"<strong>{cat}</strong>: {info['score']}%<br><em>{info['comment']}</em>")
+                if isinstance(info, dict):
+                    score = info.get("score", 0)
+                    comment = info.get("comment", "")
+                    blue_box(f"<strong>{cat}</strong>: {score}%<br><em>{comment}</em>")
 
     elif tool == "resume_critique":
         with st.spinner("Reviewing resume..."):
@@ -286,4 +306,5 @@ st.markdown("""
 <hr style="margin-top: 3rem;">
 <div style='text-align: center; color: gray;'>Made with ❤️ by Garima | CareerForge 2025</div>
 """, unsafe_allow_html=True)
+
 

@@ -164,7 +164,14 @@ if st.session_state.resume_uploaded and st.session_state.jd_submitted:
         with st.spinner("Calculating job fit..."):
             resume_data = parse_resume("data/temp_resume.pdf")
             result = analyze_job_fit(resume_data["RawText"], st.session_state.job_description)
-            df = pd.DataFrame({"Category": list(result.keys()), "Score": [v["score"] for v in result.values()]})
+            if isinstance(result, dict) and "error" not in result:
+                df = pd.DataFrame({
+                    "Category": list(result.keys()),
+                    "Score": [v.get("score", 0) for v in result.values()]
+                })
+            else:
+                st.error("Job fit analysis failed. Please try again.")
+                st.stop()
             st.session_state.job_fit_result = result
 
             def radar_plot():
@@ -279,3 +286,4 @@ st.markdown("""
 <hr style="margin-top: 3rem;">
 <div style='text-align: center; color: gray;'>Made with ❤️ by Garima | CareerForge 2025</div>
 """, unsafe_allow_html=True)
+

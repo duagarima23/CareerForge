@@ -34,11 +34,12 @@ Please return:
 
 
     response = client.chat.completions.create(
-        model="mistralai/mistral-7b-instruct:free",
+        model="meta-llama/llama-3.1-8b-instruct:free",
         messages=[{"role": "user", "content": prompt}],
         temperature=0.6,
         max_tokens=600
     )
 
     return response.choices[0].message.content.strip()
+
 

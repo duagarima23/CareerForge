@@ -28,7 +28,7 @@ Return only the questions — one per line, no explanation or formatting like 'Q
 """
 
     response = client.chat.completions.create(
-        model="mistralai/mistral-7b-instruct:free",  # You can swap with any OpenRouter model
+        model="meta-llama/llama-3.1-8b-instruct:free",  # You can swap with any OpenRouter model
         messages=[{"role": "user", "content": prompt}],
         temperature=0.7,
         max_tokens=600
@@ -50,13 +50,14 @@ Give helpful, constructive feedback (2-3 lines) and then suggest an improved or 
 """
 
     response = client.chat.completions.create(
-        model="mistralai/mistral-7b-instruct:free",
+        model="meta-llama/llama-3.1-8b-instruct:free",
         messages=[{"role": "user", "content": prompt}],
         temperature=0.7,
         max_tokens=400
     )
 
     return response.choices[0].message.content.strip()
+
 
 
 

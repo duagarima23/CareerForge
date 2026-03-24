@@ -72,7 +72,7 @@ Job Description:
     try:
         response = client.chat.completions.create(
             # ✅ FIX 1: stable model
-            model="mistralai/mistral-7b-instruct",
+            model="openai/gpt-3.5-turbo",
 
             # ✅ FIX 2: system message for strict JSON
             messages=[

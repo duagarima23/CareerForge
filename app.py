@@ -176,7 +176,8 @@ if st.session_state.resume_uploaded and st.session_state.jd_submitted:
     tool = st.session_state.active_tool
 
     if tool == "skill_match":
-        with st.spinner("Analyzing skill match..."):
+
+        with st.spinner("🔍 Comparing your resume with the job description..."):
     
             resume_data = parse_resume("data/temp_resume.pdf")
     
@@ -189,82 +190,30 @@ if st.session_state.resume_uploaded and st.session_state.jd_submitted:
                 jd_skills
             )
     
+            st.subheader("🎯 Skill Match Analysis")
+    
             st.progress(score / 100)
     
-            # -------------------------------
-            # Matched Skill Badges
-            # -------------------------------
-            matched_html = ""
+            c1, c2 = st.columns(2)
     
-            if matched:
-                for skill in matched:
-                    matched_html += f"""
-                    <span style="
-                        background-color:#28a745;
-                        color:white;
-                        padding:6px 12px;
-                        margin:4px;
-                        border-radius:18px;
-                        display:inline-block;
-                        font-size:14px;
-                        font-weight:500;
-                    ">
-                        {skill.title()}
-                    </span>
-                    """
+            with c1:
+                st.metric("Match Score", f"{score}%")
     
-            else:
-                matched_html = "<p>No matching skills found.</p>"
+            with c2:
+                st.metric(
+                    "Matched Skills",
+                    f"{len(matched)} / {len(jd_skills)}"
+                )
     
-            # -------------------------------
-            # Missing Skill Badges
-            # -------------------------------
-            missing_html = ""
+            st.success("✅ Matched Skills")
     
-            if missing:
-                for skill in missing:
-                    missing_html += f"""
-                    <span style="
-                        background-color:#dc3545;
-                        color:white;
-                        padding:6px 12px;
-                        margin:4px;
-                        border-radius:18px;
-                        display:inline-block;
-                        font-size:14px;
-                        font-weight:500;
-                    ">
-                        {skill.title()}
-                    </span>
-                    """
+            for skill in matched:
+                st.markdown(f"- **{skill.title()}**")
     
-            else:
-                missing_html = "<p>No missing skills 🎉</p>"
+            st.error("❌ Missing Skills")
     
-            # -------------------------------
-            # Final HTML
-            # -------------------------------
-            content = f"""
-            <h3>🎯 Skill Match Score: {score}%</h3>
-    
-            <p>
-                <strong>Matched Skills:</strong>
-                {len(matched)} / {len(jd_skills)}
-            </p>
-    
-            {matched_html}
-    
-            <hr>
-    
-            <p>
-                <strong>Missing Skills:</strong>
-                {len(missing)}
-            </p>
-    
-            {missing_html}
-            """
-    
-            blue_box(content)
+            for skill in missing:
+                st.markdown(f"- {skill.title()}")
     
             st.session_state.matched = matched
             st.session_state.missing = missing

@@ -21,7 +21,6 @@ from reportlab.lib.utils import simpleSplit
 load_dotenv()
 st.set_page_config(page_title="CareerForge – AI Career Assistant", layout="wide", page_icon="🤖")
 
-st.write("VERSION 2.0")
 
 # --- Global Styles ---
 st.markdown("""
@@ -117,7 +116,6 @@ else:
             st.session_state[key] = False
         st.rerun()
 
-job_description = st.text_area("Paste Job Description")
 
 # ---------------- Job Description ---------------- #
 

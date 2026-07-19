@@ -1,3 +1,4 @@
+st.write("VERSION 2.0")
 import streamlit as st
 import os
 import time

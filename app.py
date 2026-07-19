@@ -47,9 +47,17 @@ input, textarea {
 """, unsafe_allow_html=True)
 
 # --- Session State ---
-for key in ["resume_uploaded", "jd_submitted", "active_tool", "job_description"]:
-    if key not in st.session_state:
-        st.session_state[key] = False if key not in ["active_tool", "job_description"] else None
+if "resume_uploaded" not in st.session_state:
+    st.session_state.resume_uploaded = False
+
+if "jd_submitted" not in st.session_state:
+    st.session_state.jd_submitted = False
+
+if "active_tool" not in st.session_state:
+    st.session_state.active_tool = None
+
+if "job_description" not in st.session_state:
+    st.session_state.job_description = ""
 
 # --- Header ---
 st.markdown("""
@@ -95,7 +103,7 @@ if not st.session_state.resume_uploaded:
     if uploaded_file:
         os.makedirs("data", exist_ok=True)
         with open("data/temp_resume.pdf", "wb") as f:
-            f.write(uploaded_file.read())
+            f.write(uploaded_file.getbuffer())
         st.session_state.resume_uploaded = True
         st.success("✅ Resume Uploaded")
 else:
@@ -107,15 +115,33 @@ else:
 
 job_description = st.text_area("Paste Job Description")
 
+# ---------------- Job Description ---------------- #
+
+job_description = st.text_area(
+    "Paste Job Description",
+    height=250,
+    placeholder="Paste the complete job description here..."
+)
+
 if st.button("Submit"):
-    if job_description.strip():
+
+    job_description = job_description.strip()
+
+    if len(job_description) >= 20:
+
         st.session_state.jd_submitted = True
         st.session_state.job_description = job_description
-        with st.spinner("⏳ Preparing tools..."):
-            time.sleep(1.2)
-        st.success("📨 Job Description Submitted!")
+
+        with st.spinner("⏳ Preparing AI tools..."):
+            time.sleep(1)
+
+        st.success("✅ Job Description Submitted Successfully!")
+
     else:
-        st.warning("⚠️ Please enter a valid job description.")
+
+        st.warning(
+            "⚠️ Please paste a complete job description (minimum 20 characters)."
+        )
 
 # --- Box Function ---
 def blue_box(content):

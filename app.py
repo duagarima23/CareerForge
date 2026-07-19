@@ -187,6 +187,8 @@ if st.session_state.resume_uploaded and st.session_state.jd_submitted:
             jd_skills
         )
 
+        st.progress(score / 100)
+
         # -------------------------------
         # Matched Skill Badges
         # -------------------------------

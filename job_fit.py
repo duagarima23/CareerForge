@@ -85,7 +85,7 @@ Job Description:
 
             # ✅ FIX 3: lower randomness
             temperature=0.3,
-            max_tokens=300
+            max_tokens=800
         )
 
         content = response.choices[0].message.content

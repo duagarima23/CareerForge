@@ -174,17 +174,97 @@ if st.session_state.resume_uploaded and st.session_state.jd_submitted:
     tool = st.session_state.active_tool
 
     if tool == "skill_match":
-        with st.spinner("Analyzing skill match..."):
-            resume_data = parse_resume("data/temp_resume.pdf")
-            jd_skills = extract_skills_from_jd(st.session_state.job_description)
-            matched, missing, score = compare_skills(resume_data['Skills'], jd_skills)
-            content = f"<h4>🎯 Skill Match Score: {score}%</h4><p><strong>✅ Matched Skills:</strong> {', '.join(matched)}</p>"
-            if missing:
-                content += f"<p><strong>❌ Missing Skills:</strong> {', '.join(missing)}</p>"
-            blue_box(content)
-            st.session_state.matched = matched
-            st.session_state.missing = missing
-            st.session_state.skill_score = score
+    with st.spinner("Analyzing skill match..."):
+
+        resume_data = parse_resume("data/temp_resume.pdf")
+
+        jd_skills = extract_skills_from_jd(
+            st.session_state.job_description
+        )
+
+        matched, missing, score = compare_skills(
+            resume_data["Skills"],
+            jd_skills
+        )
+
+        # -------------------------------
+        # Matched Skill Badges
+        # -------------------------------
+        matched_html = ""
+
+        if matched:
+            for skill in matched:
+                matched_html += f"""
+                <span style="
+                    background-color:#28a745;
+                    color:white;
+                    padding:6px 12px;
+                    margin:4px;
+                    border-radius:18px;
+                    display:inline-block;
+                    font-size:14px;
+                    font-weight:500;
+                ">
+                    {skill.title()}
+                </span>
+                """
+
+        else:
+            matched_html = "<p>No matching skills found.</p>"
+
+        # -------------------------------
+        # Missing Skill Badges
+        # -------------------------------
+        missing_html = ""
+
+        if missing:
+            for skill in missing:
+                missing_html += f"""
+                <span style="
+                    background-color:#dc3545;
+                    color:white;
+                    padding:6px 12px;
+                    margin:4px;
+                    border-radius:18px;
+                    display:inline-block;
+                    font-size:14px;
+                    font-weight:500;
+                ">
+                    {skill.title()}
+                </span>
+                """
+
+        else:
+            missing_html = "<p>No missing skills 🎉</p>"
+
+        # -------------------------------
+        # Final HTML
+        # -------------------------------
+        content = f"""
+        <h3>🎯 Skill Match Score: {score}%</h3>
+
+        <p>
+            <strong>Matched Skills:</strong>
+            {len(matched)} / {len(jd_skills)}
+        </p>
+
+        {matched_html}
+
+        <hr>
+
+        <p>
+            <strong>Missing Skills:</strong>
+            {len(missing)}
+        </p>
+
+        {missing_html}
+        """
+
+        blue_box(content)
+
+        st.session_state.matched = matched
+        st.session_state.missing = missing
+        st.session_state.skill_score = score
 
     elif tool == "job_fit":
         with st.spinner("Calculating job fit..."):

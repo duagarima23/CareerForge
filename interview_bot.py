@@ -30,7 +30,7 @@ Return only the questions — one per line, no explanation or formatting like 'Q
     response = client.chat.completions.create(
         model="openrouter/auto",  # You can swap with any OpenRouter model
         messages=[{"role": "user", "content": prompt}],
-        temperature=0.5,
+        temperature=0.7,
         max_tokens=600
     )
 

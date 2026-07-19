@@ -1,4 +1,3 @@
-st.write("VERSION 2.0")
 import streamlit as st
 import os
 import time
@@ -16,6 +15,8 @@ import numpy as np
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import letter as LETTER_SIZE
 from reportlab.lib.utils import simpleSplit
+
+st.write("VERSION 2.0")
 
 load_dotenv()
 st.set_page_config(page_title="CareerForge – AI Career Assistant", layout="wide", page_icon="🤖")

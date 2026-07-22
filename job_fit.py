@@ -71,10 +71,10 @@ Job Description:
 
     try:
         response = client.chat.completions.create(
-            # ✅ FIX 1: stable model
+            
             model="openai/gpt-3.5-turbo",
 
-            # ✅ FIX 2: system message for strict JSON
+            # system message for strict JSON
             messages=[
                 {
                     "role": "system",
@@ -83,14 +83,14 @@ Job Description:
                 {"role": "user", "content": prompt}
             ],
 
-            # ✅ FIX 3: lower randomness
+            
             temperature=0.3,
             max_tokens=800
         )
 
         content = response.choices[0].message.content
 
-        # ✅ FIX 4: handle empty response
+        # handle empty response
         if not content or content.strip() == "":
             return {
                 "error": "Empty response from model",
